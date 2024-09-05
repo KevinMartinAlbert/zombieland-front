@@ -135,6 +135,10 @@ a {
   text-decoration: inherit;
 }
 
+a:visited {
+  color: white;
+}
+
 /*
 Add the correct font weight in Edge and Safari.
 */
@@ -241,7 +245,9 @@ textarea {
   padding: 0;
   /* 3 */
 }
-
+input {
+  color: white;
+}
 /*
 Remove the inheritance of text transform in Edge and Firefox.
 */
@@ -598,11 +604,11 @@ a {
 }
 
 a:hover {
-  color: #535bf2;
+  color: #ffffff;
 }
 
 body {
-  font-family: "League Gothic", sans-serif;
+  font-family: 'League Gothic', sans-serif;
   margin: 0;
   display: flex;
   place-items: center;
@@ -613,6 +619,8 @@ body {
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  text-transform: uppercase;
+  color: white;
 }
 
 button {
@@ -643,7 +651,7 @@ button:focus-visible {
   }
 
   a:hover {
-    color: #747bff;
+    color: #ffffff;
   }
 
   button {

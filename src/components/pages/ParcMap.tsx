@@ -1,10 +1,10 @@
+/* eslint-disable react/react-in-jsx-scope */
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import map from '../../assets/img/desktop/zombieland_map.webp';
-import attractionsData from '../../data/attractions.json'; // Import direct du JSON
 
 interface Attraction {
-  id: number;
+  activity_id: number;
   name: string;
   description_short: string;
   x: number;
@@ -17,9 +17,24 @@ function ParcMap() {
     null
   );
 
-  // Charger les attractions à partir du fichier JSON importé
+  // Fetch attractions data from the endpoint
   useEffect(() => {
-    setAttractions(attractionsData); // Pas besoin de fetch, on utilise l'import direct
+    const fetchAttractions = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/activities`
+        );
+        if (!response.ok) {
+          throw new Error('Failed to fetch attractions data');
+        }
+        const data: Attraction[] = await response.json();
+        setAttractions(data);
+      } catch (error) {
+        console.error('Error fetching attractions:', error);
+      }
+    };
+
+    fetchAttractions();
   }, []);
 
   const handleAttractionMouseEnter = (attraction: Attraction) => {
@@ -46,9 +61,10 @@ function ParcMap() {
         {/* Points interactifs */}
         {attractions.map((attraction) => (
           <div
-            key={attraction.id}
+            key={attraction.activity_id}
             className={`absolute divide-y divide-red-800 pt-0 text-center text-lg font-medium p-2 transition-all duration-300 ease-in-out rounded ${
-              hoveredAttraction && hoveredAttraction.id === attraction.id
+              hoveredAttraction &&
+              hoveredAttraction.activity_id === attraction.activity_id
                 ? 'bg-redZombie w-[200px]' // Taille étendue et couleur lorsqu'elle est survolée
                 : 'bg-red-800 inline-block w-[110px] h-[25px]' // Taille par défaut et couleur pour les non-survolés
             }`}
@@ -62,7 +78,8 @@ function ParcMap() {
               flexDirection: 'column', // Empile les enfants verticalement
               alignItems: 'center', // Centre horizontalement le contenu
               zIndex:
-                hoveredAttraction && hoveredAttraction.id === attraction.id
+                hoveredAttraction &&
+                hoveredAttraction.activity_id === attraction.activity_id
                   ? 10
                   : 1, // Set higher z-index on hover
             }}
@@ -77,7 +94,8 @@ function ParcMap() {
             {/* Contenu déroulant pour la description */}
             <div
               className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                hoveredAttraction && hoveredAttraction.id === attraction.id
+                hoveredAttraction &&
+                hoveredAttraction.activity_id === attraction.activity_id
                   ? 'max-h-60 mt-2 opacity-100 delay-100' // Dérouler le contenu avec un délai
                   : 'max-h-0 opacity-0' // Cacher le contenu par défaut
               }`}
@@ -88,19 +106,20 @@ function ParcMap() {
               }}
             >
               {/* Texte de description */}
-              {hoveredAttraction && hoveredAttraction.id === attraction.id && (
-                <div className="divide-y divide-red-800">
-                  <p className="text-white font-light pt-2">
-                    {attraction.description_short}
-                  </p>
-                  <Link
-                    className="mt-4 p-1 rounded bg-white text-redZombie hover:text-redZombie hover:bg-red-100"
-                    to={`../attractions/${attraction.id}`}
-                  >
-                    En savoir plus
-                  </Link>
-                </div>
-              )}
+              {hoveredAttraction &&
+                hoveredAttraction.activity_id === attraction.activity_id && (
+                  <div className="divide-y divide-red-800">
+                    <p className="text-white font-light pt-2">
+                      {attraction.description_short}
+                    </p>
+                    <Link
+                      className="mt-4 p-1 rounded bg-white visited:text-redZombie text-redZombie hover:text-redZombie hover:bg-red-100"
+                      to={`../attractions/${attraction.activity_id}`}
+                    >
+                      En savoir plus
+                    </Link>
+                  </div>
+                )}
             </div>
           </div>
         ))}

@@ -1,11 +1,23 @@
+/* eslint-disable react/react-in-jsx-scope */
 import { Link } from 'react-router-dom';
-
+import { useEffect } from 'react';
+import { HashLink } from 'react-router-hash-link';
 function Footer() {
+  useEffect(() => {
+    const links = document.querySelectorAll('a');
+
+    // Ajouter l'événement onClick à chaque lien pour défiler vers le haut
+    links.forEach((link) => {
+      link.addEventListener('click', () => {
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+      });
+    });
+  }, []);
   return (
-    <footer className="w-screen bg-black">
+    <footer className="w-screen bg-black text-white">
       <div className="flex flex-wrap gap-2 justify-around p-4 pb-0">
-        <div className="w-[150px]">
-          <h3 className="badgrunge text-3xl">ZombieLand</h3>
+        <div className="w-[150px] ">
+          <h2 className="badgrunge text-3xl">ZombieLand</h2>
           <p className="">
             A seulement quelques minutes de Paris, ZombieLand est un parc de
             zombies immersif où l&apos;horreur devient réalité !
@@ -19,7 +31,7 @@ function Footer() {
             <li>
               <Link
                 className="text-white hover:text-red-500"
-                href="/infos-pratiques"
+                to="/infos-pratiques"
               >
                 Infos pratiques
               </Link>
@@ -84,12 +96,12 @@ function Footer() {
                 <path d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z" />
                 <path d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" />
               </svg>
-              <a
+              <HashLink
+                to="infos-pratiques#venirAuParc"
                 className="text-white hover:text-red-500"
-                href="https://maps.app.goo.gl/yRq9KmqwEqojW5jS6"
               >
                 66 rue de l&apos;enfer <br /> 75000 Paris
-              </a>
+              </HashLink>
             </li>
           </ul>
         </div>

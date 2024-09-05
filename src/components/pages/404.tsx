@@ -1,7 +1,14 @@
+/* eslint-disable react/react-in-jsx-scope */
+import pageNotFoundImg from '../../assets/img/desktop/404page 1.webp';
+
 function NotFoundPage() {
   return (
-    <div className="m-40">
-      <h1>404 - Page Not Found</h1>
+    <div className="mt-36 flex flex-col items-center justify-between">
+      <img
+        src={pageNotFoundImg}
+        alt="page 404 not found"
+        className="w-[400px]"
+      />
     </div>
   );
 }
